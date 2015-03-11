@@ -427,6 +427,10 @@ func parseMessage(data []byte) []*Packet {
 		} else if mtypeStr[0] == 's' {
 			value = string(val)
 		} else {
+			decimal := bytes.IndexByte(val, '.')
+			if decimal > 0 {
+				val = val[0:decimal]
+			}
 			value, err = strconv.ParseUint(string(val), 10, 64)
 			if err != nil {
 				log.Printf("ERROR: failed to ParseUint %s - %s", string(val), err)

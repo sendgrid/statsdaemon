@@ -96,6 +96,17 @@ func TestParseMessageTimer(t *testing.T) {
 	assert.Equal(t, float32(1), packet.Sampling)
 }
 
+func TestParseMessageTimerFloat(t *testing.T) {
+	d := []byte("glork:320.12346781|ms")
+	packets := parseMessage(d)
+	assert.Equal(t, len(packets), 1)
+	packet := packets[0]
+	assert.Equal(t, "glork", packet.Bucket)
+	assert.Equal(t, uint64(320), packet.Value.(uint64))
+	assert.Equal(t, "ms", packet.Modifier)
+	assert.Equal(t, float32(1), packet.Sampling)
+}
+
 func TestParseMessageSet(t *testing.T) {
 	d := []byte("uniques:765|s")
 	packets := parseMessage(d)
